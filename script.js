@@ -43,7 +43,7 @@ fetch("https://stoicquotesapi.com/v1/api/quotes/random")
 
     // Save quotes to list
 
-    saveQuoteButton.addEventListener("click", function () {
+    saveQuoteButton.addEventListener("click", function() {
       // Load the saved quotes from local storage
       let savedQuotes = JSON.parse(localStorage.getItem("savedQuotes")) || [];
 
@@ -55,16 +55,17 @@ fetch("https://stoicquotesapi.com/v1/api/quotes/random")
       if (!isQuoteSaved) {
         savedQuotes.push(data);
         localStorage.setItem("savedQuotes", JSON.stringify(savedQuotes));
+        showAlert("Quote saved successfully!");
       }
 
       console.log(savedQuotes);
     });
 
-    showSavedQuotesButton.addEventListener("click", function () {
+    showSavedQuotesButton.addEventListener("click", function() {
       showSavedQuotes();
     });
 
-    newQuoteButton.addEventListener("click", function () {
+    newQuoteButton.addEventListener("click", function() {
       window.location.reload();
     });
   })
@@ -72,8 +73,23 @@ fetch("https://stoicquotesapi.com/v1/api/quotes/random")
     console.error("There was a problem with the fetch operation:", error);
   });
 
-// Show saved quotes
+const alertBox = document.querySelector(".alert-box");
+const alertMessage = document.querySelector(".alert-message");
+const alertButton = document.querySelector(".alert-button");
 
+function showAlert(message) {
+  alertMessage.textContent = message;
+  alertBox.style.display = "block";
+  setTimeout(function() {
+    alertBox.style.display = "none";
+  }, 2000);
+}
+
+alertButton.addEventListener("click", function() {
+  alertBox.style.display = "none";
+});
+
+// Show saved quotes
 function showSavedQuotes() {
   console.log("showSavedQuotes");
   // Load the saved quotes from local storage
@@ -96,7 +112,7 @@ function showSavedQuotes() {
   const backButton = document.createElement("button");
   backButton.classList.add("saved-quotes-back-button");
   backButton.innerHTML = "Back";
-  backButton.addEventListener("click", function () {
+  backButton.addEventListener("click", function() {
     main.classList.remove("hidden");
     savedQuotesList.remove();
     backButton.remove();
